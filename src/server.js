@@ -93,12 +93,28 @@ const server = http.createServer(async (req, res) => {
 
   // API Route: Health check
   if (url.pathname === '/api/health' && req.method === 'GET') {
-    const hasKey = Boolean(process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
+    const hasOpenRouter = Boolean(process.env.OPENROUTER_API_KEY);
+    const hasGemini = Boolean(process.env.GEMINI_API_KEY);
+    const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
+    const hasOnlineKey = hasOpenRouter || hasGemini || hasOpenAI;
+
     return sendJson(res, 200, {
       ok: true,
       status: 'healthy',
-      modelMode: hasKey ? 'online-api' : 'offline-mock',
-      provider: process.env.GEMINI_API_KEY ? 'gemini' : process.env.OPENAI_API_KEY ? 'openai' : 'local-mock',
+      modelMode: hasOnlineKey ? 'online-api' : 'offline-mock',
+      providers: {
+        openrouter: hasOpenRouter,
+        gemini: hasGemini,
+        openai: hasOpenAI,
+        mock: true,
+      },
+      activeChain: [
+        ...(hasOpenRouter ? ['OpenRouter (Primary)'] : []),
+        ...(hasGemini ? ['Google Gemini (Failover Fallback)'] : []),
+        ...(hasOpenAI ? ['OpenAI'] : []),
+        'Deterministic Ground-Truth Engine (Offline Safe)',
+      ],
+      primaryProvider: hasOpenRouter ? 'openrouter' : hasGemini ? 'gemini' : hasOpenAI ? 'openai' : 'mock',
     });
   }
 
@@ -114,8 +130,29 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname === '/api/chat' && req.method === 'POST') {
     try {
       const body = await parseJsonBody(req);
-      const question = body.question?.trim();
+      let question = body.question?.trim() || '';
       const simulateFailure = Boolean(body.simulateFailure);
+      let simulateFallback = Boolean(body.simulateFallback);
+      let provider = body.provider || 'auto';
+
+      // Support inline slash commands in question
+      if (question.startsWith('/fallback test') || question.startsWith('/fallback simulate')) {
+        simulateFallback = true;
+        question = question.replace(/^\/fallback (test|simulate)/i, '').trim() ||
+          'When are the group coaching calls and how do I join?';
+      } else if (question.startsWith('/provider gemini')) {
+        provider = 'gemini';
+        question = question.replace(/^\/provider gemini/i, '').trim() ||
+          'When are the group coaching calls and how do I join?';
+      } else if (question.startsWith('/provider openrouter')) {
+        provider = 'openrouter';
+        question = question.replace(/^\/provider openrouter/i, '').trim() ||
+          'When are the group coaching calls and how do I join?';
+      } else if (question.startsWith('/provider mock')) {
+        provider = 'mock';
+        question = question.replace(/^\/provider mock/i, '').trim() ||
+          'When are the group coaching calls and how do I join?';
+      }
 
       if (!question && !simulateFailure) {
         return sendJson(res, 400, {
@@ -124,7 +161,11 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
-      const result = await askHelpDesk(question || 'Test failure trigger', { simulateFailure });
+      const result = await askHelpDesk(question || 'Test failure trigger', {
+        simulateFailure,
+        simulateFallback,
+        provider,
+      });
 
       return sendJson(res, 200, {
         ok: true,
