@@ -1,0 +1,25 @@
+{
+  "name": "brightpath-ai-helpdesk",
+  "version": "1.0.0",
+  "description": "Grounded AI Help Desk assistant for BrightPath Learn with Palletism Graphite Sketch design",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test test/helpdesk.test.js"
+  },
+  "keywords": [
+    "ai",
+    "helpdesk",
+    "grounding",
+    "rag",
+    "palletism",
+    "brightpath"
+  ],
+  "author": "Reamogetswe Molefe",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

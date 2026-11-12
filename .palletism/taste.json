@@ -1,0 +1,16 @@
+{
+  "pack": "graphite-sketch",
+  "name": "Graphite Sketch",
+  "palette": {
+    "ground": "#FFFFFF",
+    "ink": "#2B2B2B",
+    "softGraphite": "#7A7A7A",
+    "lightHatching": "#C9C9C9",
+    "paperMuted": "#F9F8F6"
+  },
+  "typography": {
+    "heading": "Cormorant Garamond, serif",
+    "body": "Literata, serif"
+  },
+  "aesthetic": "Hand-drawn graphite pencil on bright white paper. Calm, thoughtful, naturalist sketchbook tone."
+}

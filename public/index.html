@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrightPath Learn — AI Help Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="site-header">
+      <div class="brand-group">
+        <div class="brand-symbol" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+            <path d="M6 6h10"></path>
+            <path d="M6 10h10"></path>
+            <path d="M6 14h6"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">BrightPath Learn</h1>
+          <p class="brand-subtitle">Student Support & Knowledge Assistant</p>
+        </div>
+      </div>
+
+      <div class="header-badges">
+        <span class="taste-badge" title="Art direction by Palletism">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+            <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+            <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+            <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+          </svg>
+          Taste Pack: Graphite Sketch
+        </span>
+        <div id="systemStatusBadge" class="status-indicator">
+          <span class="dot"></span>
+          <span id="systemStatusText">Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-layout">
+      <!-- Left Column: Q&A Experience -->
+      <section class="assistant-pane">
+        <!-- Reviewer Test Controls -->
+        <div class="controls-card">
+          <div class="controls-header">
+            <span class="controls-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              Reviewer Test Scenarios
+            </span>
+            <label class="toggle-switch" title="Simulate upstream API outage or connection failure">
+              <input type="checkbox" id="simulateFailureToggle">
+              <span class="slider"></span>
+              <span class="toggle-text">Simulate API Failure</span>
+            </label>
+          </div>
+
+          <div class="preset-buttons">
+            <button type="button" class="preset-btn" id="btnTestSupported">
+              <span class="btn-num">1</span>
+              <span>Supported Question (Doc 2)</span>
+            </button>
+            <button type="button" class="preset-btn" id="btnTestUnknown">
+              <span class="btn-num">2</span>
+              <span>Unknown / Out-of-Scope (Refusal)</span>
+            </button>
+            <button type="button" class="preset-btn" id="btnTestDoc1">
+              <span class="btn-num">3</span>
+              <span>Course Progress (Doc 1)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <form id="qaForm" class="query-card">
+          <label for="questionInput" class="query-label">Ask a question about BrightPath Learn</label>
+          <div class="query-input-wrapper">
+            <textarea
+              id="questionInput"
+              rows="3"
+              placeholder="e.g. When are group coaching sessions held, and how do I join?"
+              required
+            ></textarea>
+          </div>
+          <div class="query-actions">
+            <span class="query-hint">Strictly grounded in official reference documents. Never hallucinates.</span>
+            <button type="submit" id="submitBtn" class="ask-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span>Ask Help Desk</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Response Feed -->
+        <div id="responseContainer" class="response-card" style="display: none;">
+          <div class="response-header">
+            <div id="responseBadge" class="grounding-badge">
+              <!-- Dynamically populated -->
+            </div>
+            <span id="responseEngineMode" class="engine-badge">Mode</span>
+          </div>
+
+          <div class="response-body">
+            <p id="responseContent" class="response-text"></p>
+          </div>
+
+          <!-- Supporting Documents Box -->
+          <div id="sourcesSection" class="sources-box">
+            <span class="sources-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Supporting Documentation
+            </span>
+            <div id="sourcesList" class="sources-chips">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Card (Hidden by default) -->
+        <div id="errorContainer" class="error-card" style="display: none;">
+          <div class="error-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="errorTitle">Model Service Unavailable</span>
+          </div>
+          <p id="errorMessage" class="error-body"></p>
+          <div class="error-recovery">
+            <span class="recovery-tip">Troubleshooting note:</span>
+            <span id="errorSuggestion">Toggle off "Simulate API Failure" above or check server logs.</span>
+          </div>
+          <button type="button" id="btnRetry" class="retry-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 2v6h-6"></path>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+              <path d="M3 22v-6h6"></path>
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+            </svg>
+            Retry Request
+          </button>
+        </div>
+      </section>
+
+      <!-- Right Column: Document Ground Truth Inspector -->
+      <aside class="docs-pane">
+        <div class="docs-panel-header">
+          <div>
+            <h2 class="docs-panel-title">Reference Documents</h2>
+            <p class="docs-panel-subtitle">Official BrightPath Learn knowledgebase</p>
+          </div>
+          <span class="doc-count-badge">3 Documents</span>
+        </div>
+
+        <div id="docsList" class="docs-accordion">
+          <!-- Populated from /api/docs -->
+        </div>
+
+        <div class="policy-note">
+          <div class="policy-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <p>
+            <strong>Strict Negative Constraint:</strong> The assistant refuses questions on pricing, refunds, or job placement promises and explicitly refers members to <code>support@brightpath.example</code>.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-left">
+        <span>BrightPath Learn AI Help Desk &middot; Built for Alessandro AI Developer Practical Test</span>
+      </div>
+      <div class="footer-right">
+        <span>Design Pack: <strong>Palletism Graphite Sketch</strong></span>
+        <span class="sep">&middot;</span>
+        <span>Zero-Hallucination Grounding Engine</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
