@@ -76,6 +76,10 @@ async function callOpenRouter(question, apiKey, model = 'google/gemini-2.5-flash
         answer
       );
 
+    const cleanModelName = model.includes('gemini-2.5-flash')
+      ? 'Gemini 2.5 Flash'
+      : model.replace(/^.*\//, '');
+
     return {
       answer: answer.trim(),
       sources: isUnknown ? [] : sources,
@@ -83,7 +87,7 @@ async function callOpenRouter(question, apiKey, model = 'google/gemini-2.5-flash
       isUnknown,
       provider: 'openrouter',
       model,
-      mode: `real-llm (OpenRouter: ${model})`,
+      mode: `Live Model · ${cleanModelName} (OpenRouter)`,
     };
   } catch (err) {
     clearTimeout(timeoutId);
@@ -142,7 +146,7 @@ async function callGemini(question, apiKey, model = 'gemini-3-flash-preview') {
       isUnknown,
       provider: 'gemini',
       model,
-      mode: `real-llm (Google Gemini: ${model})`,
+      mode: 'Live Model · Google Gemini 3 Flash',
     };
   } catch (err) {
     clearTimeout(timeoutId);
@@ -201,7 +205,7 @@ async function callOpenAI(question, apiKey, model = 'gpt-4o-mini') {
       isUnknown,
       provider: 'openai',
       model,
-      mode: `real-llm (OpenAI: ${model})`,
+      mode: `Live Model · GPT-4o-mini (OpenAI)`,
     };
   } catch (err) {
     clearTimeout(timeoutId);
@@ -248,7 +252,7 @@ export async function askHelpDesk(question, options = {}) {
       provider: 'mock',
       fallbackUsed: false,
       fallbackHistory: [],
-      mode: 'offline-mock (deterministic ground-truth engine)',
+      mode: 'Deterministic Verification Engine (Offline)',
     };
   }
 
@@ -308,7 +312,7 @@ export async function askHelpDesk(question, options = {}) {
         fallbackUsed,
         fallbackHistory,
         mode: fallbackUsed
-          ? `${result.mode} (Failover active: fell back from ${attempts[0].name})`
+          ? `${result.mode} · Failover Active`
           : result.mode,
       };
     } catch (err) {
@@ -330,7 +334,7 @@ export async function askHelpDesk(question, options = {}) {
     fallbackUsed: fallbackHistory.length > 0,
     fallbackHistory,
     mode: fallbackHistory.length > 0
-      ? `offline-mock (Resilient fallback: all ${fallbackHistory.length} online providers were unavailable)`
-      : 'offline-mock (deterministic ground-truth engine)',
+      ? `Deterministic Verification Engine · Fallback Active`
+      : 'Deterministic Verification Engine (Offline)',
   };
 }

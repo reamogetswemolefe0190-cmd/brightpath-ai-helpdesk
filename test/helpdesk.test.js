@@ -122,6 +122,6 @@ test('BrightPath Learn AI Help Desk Test Battery', async (t) => {
     const mockResult = await askHelpDesk(question, { provider: 'mock' });
 
     assert.equal(mockResult.provider, 'mock', 'Provider must be set to mock when requested');
-    assert.match(mockResult.mode, /offline-mock/i, 'Mode should be offline-mock');
+    assert.match(mockResult.mode, /offline-mock|deterministic/i, 'Mode should be offline-mock or deterministic');
   });
 });
