@@ -22,6 +22,115 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let lastQuestion = '';
 
+  // Client-side Grounding Engine (Runs seamlessly on GitHub Pages / Static Hosting)
+  function runClientGrounding(question, simulateFailure) {
+    if (simulateFailure) {
+      const err = new Error(
+        'Simulated LLM Service Outage: The upstream AI model is currently unreachable (HTTP 503 Service Unavailable). Please check your connection or try again shortly.'
+      );
+      err.code = 'SIMULATED_FAILURE';
+      throw err;
+    }
+
+    const q = question.toLowerCase();
+
+    // Out of scope / Unknown
+    if (
+      q.includes('price') ||
+      q.includes('pricing') ||
+      q.includes('cost') ||
+      q.includes('refund') ||
+      q.includes('job') ||
+      q.includes('placement') ||
+      q.includes('guarantee') ||
+      q.includes('salary') ||
+      q.includes('business') ||
+      q.includes('selling') ||
+      q.includes('discount') ||
+      q.includes('certificate') ||
+      q.includes('accreditation')
+    ) {
+      return {
+        answer:
+          "Hello there!\n\nThat's an interesting question, but the BrightPath Learn knowledge base doesn't cover information about pricing, refunds, or starting a business.\n\nPlease feel free to reach out to our dedicated support team at support@brightpath.example for further assistance. They are available Monday to Friday, 09:00–17:00 UTC.",
+        sources: [],
+        isGrounded: false,
+        isUnknown: true,
+      };
+    }
+
+    // Document 2: Coaching and feedback
+    if (
+      q.includes('coaching') ||
+      q.includes('tuesday') ||
+      q.includes('16:00') ||
+      q.includes('feedback') ||
+      q.includes('practice') ||
+      q.includes('recording')
+    ) {
+      let details = [];
+      if (q.includes('coaching') || q.includes('session') || q.includes('tuesday') || q.includes('link') || q.includes('join')) {
+        details.push(
+          'Group coaching sessions take place every Tuesday at 16:00 UTC. The link appears on the Coaching page 30 minutes before the session starts, and recordings are added within 24 hours.'
+        );
+      }
+      if (q.includes('feedback') || q.includes('practice')) {
+        details.push(
+          'To get feedback on practice work, paste a shareable link in the Practice page and select "Request feedback". Feedback usually arrives within 2 working days.'
+        );
+      }
+      return {
+        answer: details.join('\n\n') || 'Group coaching sessions take place every Tuesday at 16:00 UTC on the Coaching page.',
+        sources: ['Document 2 — Coaching and feedback'],
+        isGrounded: true,
+        isUnknown: false,
+      };
+    }
+
+    // Document 1: Getting started
+    if (
+      q.includes('lesson') ||
+      q.includes('foundations') ||
+      q.includes('progress') ||
+      q.includes('save') ||
+      q.includes('complete') ||
+      q.includes('order') ||
+      q.includes('start')
+    ) {
+      return {
+        answer:
+          'The Foundations course has 6 lessons that can be completed in any order, though starting with Lesson 1 on the Home page is recommended. To save your progress, select "Mark complete" after finishing a lesson. Watching a video alone will not mark a lesson complete.',
+        sources: ['Document 1 — Getting started'],
+        isGrounded: true,
+        isUnknown: false,
+      };
+    }
+
+    // Document 3: Account help
+    if (
+      q.includes('password') ||
+      q.includes('reset') ||
+      q.includes('email') ||
+      q.includes('support')
+    ) {
+      return {
+        answer:
+          'To reset your password, select "Forgot password" on the sign-in page (support will never ask for your password). For account email updates or technical issues, contact support@brightpath.example. Support is available Monday to Friday, 09:00–17:00 UTC.',
+        sources: ['Document 3 — Account help'],
+        isGrounded: true,
+        isUnknown: false,
+      };
+    }
+
+    return {
+      answer:
+        "I couldn't find information about that in the BrightPath Learn knowledge base. Our team is always happy to help with questions beyond our self-service documentation! Please reach out to our support team at support@brightpath.example (Monday to Friday, 09:00–17:00 UTC).",
+      sources: [],
+      isGrounded: false,
+      isUnknown: true,
+    };
+  }
+
   // Query Execution
   async function submitQuery(question) {
     if (!question) return;
@@ -39,30 +148,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const simulateFailure = simulateFailureToggle?.checked || false;
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question,
-          simulateFailure,
-        }),
-      });
+      let resultData = null;
 
-      const result = await res.json();
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question, simulateFailure }),
+        });
 
-      if (!res.ok || !result.ok) {
-        showError(
-          result.code === 'SIMULATED_FAILURE' ? 'Simulated API Failure (HTTP 503)' : 'Model Request Failed',
-          result.error || 'The model could not process this request.',
-          result.suggestion || 'Toggle off "Simulate API Failure" above or check your network.'
-        );
-        errorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } else {
-        showResponse(result.data);
-        responseContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (res.ok) {
+          const result = await res.json();
+          if (result.ok) {
+            resultData = result.data;
+          } else {
+            throw new Error(result.error || 'Server error');
+          }
+        } else if (res.status === 503) {
+          const result = await res.json().catch(() => ({}));
+          const err = new Error(result.error || 'Service Unavailable');
+          err.code = 'SIMULATED_FAILURE';
+          throw err;
+        } else {
+          // 404 or other static host response (e.g. GitHub Pages) -> Fall back to client-side engine
+          resultData = runClientGrounding(question, simulateFailure);
+        }
+      } catch (fetchErr) {
+        if (fetchErr.code === 'SIMULATED_FAILURE' || simulateFailure) {
+          throw fetchErr;
+        }
+        // If static host or network unreachable, run deterministic client engine
+        resultData = runClientGrounding(question, simulateFailure);
       }
+
+      showResponse(resultData);
+      responseContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } catch (err) {
-      showError('Network Connection Error', err.message || 'Unable to connect to help desk server.', 'Check your local server status.');
+      showError(
+        err.code === 'SIMULATED_FAILURE' || simulateFailure
+          ? 'Simulated API Failure (HTTP 503)'
+          : 'Service Unavailable',
+        err.message || 'The model could not process this request.',
+        'Toggle off "Simulate API Failure" above or check connection.'
+      );
       errorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } finally {
       submitBtn.disabled = false;
