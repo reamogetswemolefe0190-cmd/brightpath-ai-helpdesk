@@ -134,15 +134,11 @@ export function generateMockAnswer(question) {
   // Document 1: Getting started
   if (
     q.includes('getting started') ||
-    q.includes('start') ||
     q.includes('lesson 1') ||
-    q.includes('goal') ||
-    q.includes('foundations') ||
-    q.includes('6 lessons') ||
-    q.includes('save') ||
-    q.includes('progress') ||
-    q.includes('complete') ||
-    q.includes('order')
+    q.includes('foundations course') ||
+    q.includes('set your goal') ||
+    q.includes('mark complete') ||
+    ((q.includes('how to start') || q.includes('where do i start')) && !q.includes('business'))
   ) {
     return {
       answer:

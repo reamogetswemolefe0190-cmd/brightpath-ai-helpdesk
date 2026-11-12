@@ -1,7 +1,6 @@
 # Practical Test Submission Guide (Alessandro Hiring Portal)
 
-You can copy and paste these exact text blocks into the 6 submission fields on the test page:
-🔗 **Submission URL**: [Alessandro AI Developer Practical Test](https://alessandro-hiring.vercel.app/hiring/test/ai-developer#applicant=5f148d27-bbd1-0252-1071-ab522c2321c8&token=e39ba5318bea7a34490f1fde75d8498083f0411a0c9f99fcb464011f6bdc765a)
+Submission guide for the 6 fields on the hiring portal.
 
 ---
 
