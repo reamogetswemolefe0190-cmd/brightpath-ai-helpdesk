@@ -3,246 +3,337 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrightPath Learn — AI Help Desk</title>
+  <title>BrightPath Learn — Modern AI Help Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page-wrapper">
-    <!-- Top Navigation Bar -->
-    <header class="site-header">
-      <div class="brand-group">
-        <div class="brand-symbol" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
-            <path d="M6 6h10"></path>
-            <path d="M6 10h10"></path>
-            <path d="M6 14h6"></path>
+  <div class="app-container">
+    <!-- Modern Top Navigation -->
+    <header class="top-nav">
+      <div class="nav-brand">
+        <div class="logo-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path>
           </svg>
         </div>
-        <div>
-          <h1 class="brand-title">BrightPath Learn</h1>
-          <p class="brand-subtitle">Student Support & Knowledge Assistant</p>
+        <div class="brand-text">
+          <span class="brand-name">BrightPath</span>
+          <span class="brand-product">Learn</span>
         </div>
       </div>
 
-      <div class="header-badges">
-        <nav class="nav-links">
-          <a href="#about" class="nav-link">About</a>
-          <a href="#curriculum" class="nav-link">Foundations</a>
-          <a href="#helpdesk" class="nav-link active">Student Help Desk</a>
-        </nav>
-        <div id="systemStatusBadge" class="status-indicator">
-          <span class="dot"></span>
-          <span id="systemStatusText">Ready</span>
+      <nav class="nav-menu">
+        <button type="button" class="nav-btn active" data-target="helpdesk-section">AI Help Desk</button>
+        <button type="button" class="nav-btn" data-target="curriculum-section">Curriculum & Lessons</button>
+        <button type="button" class="nav-btn" data-target="coaching-section">Coaching Schedule</button>
+        <button type="button" class="nav-btn" data-target="docs-section">Knowledgebase</button>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="health-chip" id="healthChip">
+          <span class="status-pulse"></span>
+          <span id="healthStatusText">Grounded Engine Active</span>
         </div>
+        <a href="#helpdesk-section" class="cta-pill">Try Assistant</a>
       </div>
     </header>
 
-    <!-- Platform Landing Hero Section -->
-    <section class="platform-hero" id="about">
-      <div class="hero-content">
-        <span class="hero-kicker">Welcome to BrightPath Learn</span>
-        <h2 class="hero-headline">Master foundational skills through patient, purposeful study.</h2>
-        <p class="hero-lead">
-          An intentional learning sanctuary with six self-paced Foundations lessons, weekly live group coaching, and dedicated mentor critique on your practice work.
+    <!-- Vibrant Hero Section -->
+    <section class="hero-stage" id="overview">
+      <div class="hero-inner">
+        <div class="pill-kicker">
+          <span class="kicker-sparkle">✦</span>
+          <span>Verified Student Knowledge Hub</span>
+          <span class="kicker-divider">•</span>
+          <span class="kicker-highlight">Zero Hallucinations</span>
+        </div>
+
+        <h1 class="hero-main-title">
+          Master foundations with <span class="gradient-text">instant, verified</span> AI guidance.
+        </h1>
+
+        <p class="hero-subtext">
+          Explore self-paced courses, attend live Tuesday coaching at 16:00 UTC, and ask questions with 100% confidence. Every answer is strictly grounded in official BrightPath Learn documents with visible citations.
         </p>
 
-        <div class="hero-stats-row">
-          <div class="hero-stat-card">
-            <span class="stat-number">6</span>
-            <span class="stat-label">Lessons in Foundations (watch in any order)</span>
+        <!-- Dynamic Platform Stats -->
+        <div class="stats-grid">
+          <div class="stat-box" id="statCardLessons">
+            <div class="stat-icon-wrap indigo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                <path d="m9 9 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-val">6 Lessons</div>
+              <div class="stat-desc">Foundations course (any order)</div>
+            </div>
           </div>
-          <div class="hero-stat-card">
-            <span class="stat-number">Weekly</span>
-            <span class="stat-label">Coaching Tuesdays at 16:00 UTC</span>
-          </div>
-          <div class="hero-stat-card">
-            <span class="stat-number">2 Days</span>
-            <span class="stat-label">Typical feedback response window</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="hero-visual">
-        <div class="sketch-frame">
-          <img
-            src="https://br-super-dust-b490f9rv.storage.c-6.us-east-2.aws.neon.tech/images/web/seed/cartographer.webp"
-            alt="Graphite Sketch illustration of a cartographer inking a map"
-            class="sketch-img"
-            loading="lazy"
-          >
-          <div class="sketch-caption">
-            <span class="sketch-label">Foundations Metaphor</span>
-            <span class="sketch-desc">"A cartographer inking a coastline map at a wide drafting table"</span>
+          <div class="stat-box" id="statCardCoaching">
+            <div class="stat-icon-wrap emerald">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-val">Tuesdays 16:00 UTC</div>
+              <div class="stat-desc">Live coaching (link 30m prior)</div>
+            </div>
+          </div>
+
+          <div class="stat-box" id="statCardFeedback">
+            <div class="stat-icon-wrap amber">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-val">2 Working Days</div>
+              <div class="stat-desc">Typical mentor practice review</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Section Divider with Anchor -->
-    <div class="section-divider" id="helpdesk">
-      <div class="divider-line"></div>
-      <span class="divider-title">Interactive AI Student Help Desk</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <!-- Main Container -->
-    <main class="main-layout">
-      <!-- Left Column: Q&A Experience -->
-      <section class="assistant-pane">
-        <!-- Reviewer Test Controls -->
-        <div class="controls-card">
-          <div class="controls-header">
-            <span class="controls-label">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
-                <path d="m9 12 2 2 4-4"></path>
+    <!-- Main Workspace Layout -->
+    <main class="workspace-grid" id="helpdesk-section">
+      <!-- Left: Interactive Assistant Stage -->
+      <section class="assistant-column">
+        <!-- Reviewer Test Bar -->
+        <div class="test-bench-card">
+          <div class="test-bench-top">
+            <div class="test-bench-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20"></path>
+                <path d="m17 5-5-3-5 3"></path>
+                <path d="m17 19-5 3-5-3"></path>
+                <path d="M2 12h20"></path>
               </svg>
-              Reviewer Test Scenarios
-            </span>
-            <label class="toggle-switch" title="Simulate upstream API outage or connection failure">
+              <span>Reviewer Test Bench</span>
+            </div>
+
+            <!-- API Failure Simulation Toggle -->
+            <label class="switch-control" title="Toggle to simulate upstream LLM outage (Requirement 4 & Scenario 3)">
+              <span class="switch-label">Simulate API Failure (503)</span>
               <input type="checkbox" id="simulateFailureToggle">
-              <span class="slider"></span>
-              <span class="toggle-text">Simulate API Failure</span>
+              <span class="switch-slider"></span>
             </label>
           </div>
 
-          <div class="preset-buttons">
-            <button type="button" class="preset-btn" id="btnTestSupported">
-              <span class="btn-num">1</span>
-              <span>Supported Question (Doc 2)</span>
+          <div class="preset-triggers">
+            <button type="button" class="preset-pill" id="btnPreset1">
+              <span class="pill-badge">Case 1</span>
+              <span class="pill-text">Coaching Schedule (Doc 2)</span>
             </button>
-            <button type="button" class="preset-btn" id="btnTestUnknown">
-              <span class="btn-num">2</span>
-              <span>Unknown / Out-of-Scope (Refusal)</span>
+            <button type="button" class="preset-pill" id="btnPreset2">
+              <span class="pill-badge alert">Case 2</span>
+              <span class="pill-text">Pricing & Refund (Doc 3 Refusal)</span>
             </button>
-            <button type="button" class="preset-btn" id="btnTestDoc1">
-              <span class="btn-num">3</span>
-              <span>Course Progress (Doc 1)</span>
+            <button type="button" class="preset-pill" id="btnPreset3">
+              <span class="pill-badge neutral">Case 3</span>
+              <span class="pill-text">Foundations Progress (Doc 1)</span>
             </button>
           </div>
         </div>
 
-        <!-- Input Area -->
-        <form id="qaForm" class="query-card">
-          <label for="questionInput" class="query-label">Ask a question about BrightPath Learn</label>
-          <div class="query-input-wrapper">
-            <textarea
-              id="questionInput"
-              rows="3"
-              placeholder="e.g. When are group coaching sessions held, and how do I join?"
-              required
-            ></textarea>
-          </div>
-          <div class="query-actions">
-            <span class="query-hint">Strictly grounded in official reference documents. Never hallucinates.</span>
-            <button type="submit" id="submitBtn" class="ask-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-              <span>Ask Help Desk</span>
-            </button>
-          </div>
-        </form>
+        <!-- Query Input Card -->
+        <div class="query-box-card">
+          <form id="qaForm">
+            <div class="query-header">
+              <label for="questionInput" class="query-headline">Ask the AI Help Desk</label>
+              <div class="quick-chips">
+                <span class="chip-label">Try:</span>
+                <button type="button" class="chip-item" data-query="When is Tuesday coaching held?">Tuesday coaching?</button>
+                <button type="button" class="chip-item" data-query="How do I save progress in lesson 1?">Save progress?</button>
+                <button type="button" class="chip-item" data-query="How much does a subscription cost?">Subscription cost?</button>
+              </div>
+            </div>
 
-        <!-- Response Feed -->
-        <div id="responseContainer" class="response-card" style="display: none;">
-          <div class="response-header">
-            <div id="responseBadge" class="grounding-badge">
+            <div class="input-container">
+              <textarea
+                id="questionInput"
+                placeholder="Ask any question about courses, schedules, feedback, or account help..."
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            <div class="query-footer">
+              <div class="grounding-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                </svg>
+                <span>Strictly verified against official documents</span>
+              </div>
+              <button type="submit" id="submitBtn" class="primary-ask-btn">
+                <span>Ask Help Desk</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Dynamic Response Stage -->
+        <div id="responseContainer" class="response-stage-card" style="display: none;">
+          <div class="response-top-bar">
+            <div id="responseStatusBadge" class="status-tag grounded">
               <!-- Dynamically populated -->
             </div>
-            <span id="responseEngineMode" class="engine-badge">Mode</span>
+            <span id="responseEngineMode" class="engine-meta">Deterministic Grounded Engine</span>
           </div>
 
-          <div class="response-body">
-            <p id="responseContent" class="response-text"></p>
+          <div class="response-content">
+            <p id="responseContent" class="response-paragraph"></p>
           </div>
 
-          <!-- Supporting Documents Box -->
-          <div id="sourcesSection" class="sources-box">
-            <span class="sources-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-              Supporting Documentation
-            </span>
-            <div id="sourcesList" class="sources-chips">
-              <!-- Dynamically populated -->
+          <!-- Citation Card -->
+          <div id="sourcesSection" class="citation-drawer">
+            <div class="citation-header">
+              <span class="citation-caption">Supported by Official Documentation:</span>
+            </div>
+            <div id="sourcesList" class="citation-chips">
+              <!-- Chips inserted dynamically -->
             </div>
           </div>
         </div>
 
-        <!-- Error Card (Hidden by default) -->
-        <div id="errorContainer" class="error-card" style="display: none;">
-          <div class="error-header">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <span id="errorTitle">Model Service Unavailable</span>
+        <!-- Dynamic Error Banner -->
+        <div id="errorContainer" class="error-stage-card" style="display: none;">
+          <div class="error-badge-row">
+            <div class="error-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span id="errorTitle">Service Unavailable (503)</span>
+            </div>
           </div>
-          <p id="errorMessage" class="error-body"></p>
-          <div class="error-recovery">
-            <span class="recovery-tip">Troubleshooting note:</span>
-            <span id="errorSuggestion">Toggle off "Simulate API Failure" above or check server logs.</span>
+          <div class="error-body-text" id="errorMessage"></div>
+          <div class="error-resolution-box">
+            <strong>Recovery tip:</strong> <span id="errorSuggestion"></span>
           </div>
-          <button type="button" id="btnRetry" class="retry-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 2v6h-6"></path>
-              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-              <path d="M3 22v-6h6"></path>
-              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
-            </svg>
-            Retry Request
-          </button>
+          <div class="error-action-row">
+            <button type="button" id="btnRetry" class="retry-button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 2v6h-6"></path>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                <path d="M3 22v-6h6"></path>
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+              </svg>
+              <span>Retry Request</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Course Curriculum Section (Doc 1 in Action) -->
+        <div class="curriculum-stage-card" id="curriculum-section">
+          <div class="curriculum-header">
+            <div>
+              <h3 class="card-title">Foundations Course Curriculum</h3>
+              <p class="card-subtitle">6 self-paced lessons. Select "Mark complete" after finishing to save your progress.</p>
+            </div>
+            <span class="lesson-counter" id="lessonCounter">0 of 6 Completed</span>
+          </div>
+
+          <div class="lessons-grid">
+            <div class="lesson-item" data-lesson="1">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 1</span>
+                <span class="lesson-name">Set your goal (Start here on Home)</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+            <div class="lesson-item" data-lesson="2">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 2</span>
+                <span class="lesson-name">Core Principles & Mental Models</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+            <div class="lesson-item" data-lesson="3">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 3</span>
+                <span class="lesson-name">Execution Strategy & Cadence</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+            <div class="lesson-item" data-lesson="4">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 4</span>
+                <span class="lesson-name">Practice Work & Shareable Links</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+            <div class="lesson-item" data-lesson="5">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 5</span>
+                <span class="lesson-name">Receiving & Integrating Mentor Feedback</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+            <div class="lesson-item" data-lesson="6">
+              <div class="lesson-info">
+                <span class="lesson-num">Lesson 6</span>
+                <span class="lesson-name">Next Steps & Independent Mastery</span>
+              </div>
+              <button type="button" class="complete-btn">Mark complete</button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Right Column: Document Ground Truth Inspector -->
-      <aside class="docs-pane">
-        <div class="docs-panel-header">
-          <div>
-            <h2 class="docs-panel-title">Reference Documents</h2>
-            <p class="docs-panel-subtitle">Official BrightPath Learn knowledgebase</p>
+      <!-- Right: Official Reference Knowledgebase Sidebar -->
+      <aside class="docs-column" id="docs-section">
+        <div class="docs-sticky-box">
+          <div class="docs-card-header">
+            <div>
+              <h3 class="docs-title">Official Knowledgebase</h3>
+              <p class="docs-sub">Exact reference documents used for ground-truth</p>
+            </div>
+            <span class="doc-badge">3 Documents</span>
           </div>
-          <span class="doc-count-badge">3 Documents</span>
-        </div>
 
-        <div id="docsList" class="docs-accordion">
-          <!-- Populated from /api/docs -->
-        </div>
-
-        <div class="policy-note">
-          <div class="policy-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
+          <div id="docsList" class="docs-stack">
+            <!-- Dynamically populated from /api/docs -->
           </div>
-          <p>
-            <strong>Strict Negative Constraint:</strong> The assistant refuses questions on pricing, refunds, or job placement promises and explicitly refers members to <code>support@brightpath.example</code>.
-          </p>
+
+          <!-- Grounding Guardrail Card -->
+          <div class="guardrail-box">
+            <div class="guardrail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div class="guardrail-text">
+              <strong>Grounding Guardrail Active:</strong>
+              Questions regarding pricing, refunds, or job placement promises are strictly refused per Document 3 policy, directing members to <code>support@brightpath.example</code>.
+            </div>
+          </div>
         </div>
       </aside>
     </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-left">
-        <span>BrightPath Learn AI Help Desk &middot; Built for Alessandro AI Developer Practical Test</span>
+    <footer class="app-footer">
+      <div class="footer-brand">
+        <strong>BrightPath Learn</strong> &middot; AI Developer Practical Test Submission
       </div>
-      <div class="footer-right">
-        <span>Zero-Hallucination Grounding Engine</span>
+      <div class="footer-meta">
+        <span>Zero-Dependency Node.js Architecture</span>
+        <span class="dot-sep">&bull;</span>
+        <span>Dual Mode: Live LLM + Grounded Mock</span>
       </div>
     </footer>
   </div>
