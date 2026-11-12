@@ -21,7 +21,6 @@
         <button type="button" class="nav-btn active" data-target="helpdesk-section">AI Help Desk</button>
         <button type="button" class="nav-btn" data-target="curriculum-section">Curriculum & Lessons</button>
         <button type="button" class="nav-btn" data-target="coaching-section">Coaching Schedule</button>
-        <button type="button" class="nav-btn" data-target="docs-section">Knowledgebase</button>
       </nav>
 
       <div class="nav-actions">
@@ -253,37 +252,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Right: Official Reference Knowledgebase Sidebar -->
-      <aside class="docs-column" id="docs-section">
-        <div class="docs-sticky-box">
-          <div class="docs-card-header">
-            <div>
-              <h3 class="docs-title">Official Knowledgebase</h3>
-              <p class="docs-sub">Exact reference documents used for ground-truth</p>
-            </div>
-            <span class="doc-badge">3 Documents</span>
-          </div>
-
-          <div id="docsList" class="docs-stack">
-            <!-- Dynamically populated from /api/docs -->
-          </div>
-
-          <!-- Grounding Guardrail Card -->
-          <div class="guardrail-box">
-            <div class="guardrail-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <div class="guardrail-text">
-              <strong>Grounding Guardrail Active:</strong>
-              Questions regarding pricing, refunds, or job placement promises are strictly refused per Document 3 policy, directing members to <code>support@brightpath.example</code>.
-            </div>
-          </div>
-        </div>
-      </aside>
     </main>
 
     <!-- Footer -->

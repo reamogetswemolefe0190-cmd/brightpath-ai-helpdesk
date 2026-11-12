@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorSuggestion = document.getElementById('errorSuggestion');
   const btnRetry = document.getElementById('btnRetry');
 
-  const docsList = document.getElementById('docsList');
   const healthStatusText = document.getElementById('healthStatusText');
 
   const btnPreset1 = document.getElementById('btnPreset1');
@@ -39,88 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
       healthStatusText.textContent = 'Server Offline';
     });
 
-  // 2. Load Knowledgebase Documents
-  fetch('/api/docs')
-    .then((r) => r.json())
-    .then((data) => {
-      if (data.ok && Array.isArray(data.docs)) {
-        renderDocsAccordion(data.docs);
-      }
-    })
-    .catch((err) => {
-      console.error('Failed to load docs:', err);
-    });
-
-  function renderDocsAccordion(docs) {
-    docsList.innerHTML = '';
-    docs.forEach((doc, idx) => {
-      const card = document.createElement('div');
-      card.className = 'doc-card';
-      card.id = `doc-card-${doc.id}`;
-
-      // Show Document 1 open by default
-      const isOpen = idx === 0;
-
-      card.innerHTML = `
-        <button type="button" class="doc-header-btn" data-doc-id="${doc.id}">
-          <span>${doc.title}</span>
-          <span class="chevron">${isOpen ? '▲' : '▼'}</span>
-        </button>
-        <div class="doc-content" style="display: ${isOpen ? 'block' : 'none'};">
-          ${escapeHtml(doc.content)}
-        </div>
-      `;
-
-      card.querySelector('.doc-header-btn').addEventListener('click', () => {
-        const content = card.querySelector('.doc-content');
-        const chevron = card.querySelector('.chevron');
-        const isCurrentlyOpen = content.style.display === 'block';
-        content.style.display = isCurrentlyOpen ? 'none' : 'block';
-        chevron.textContent = isCurrentlyOpen ? '▼' : '▲';
-      });
-
-      docsList.appendChild(card);
-    });
-  }
-
-  // 3. Highlight and open cited documents
-  function highlightCitedDocs(sources) {
-    document.querySelectorAll('.doc-card').forEach((el) => {
-      el.classList.remove('active-source');
-    });
-
-    if (!sources || sources.length === 0) return;
-
-    sources.forEach((src) => {
-      let targetId = '';
-      if (/Document 1/i.test(src)) targetId = 'doc-card-doc-1';
-      if (/Document 2/i.test(src)) targetId = 'doc-card-doc-2';
-      if (/Document 3/i.test(src)) targetId = 'doc-card-doc-3';
-
-      if (targetId) {
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-          targetEl.classList.add('active-source');
-          const content = targetEl.querySelector('.doc-content');
-          const chevron = targetEl.querySelector('.chevron');
-          if (content) content.style.display = 'block';
-          if (chevron) chevron.textContent = '▲';
-        }
-      }
-    });
-  }
-
-  // 4. Query Execution
+  // 2. Query Execution
   async function submitQuery(question) {
     if (!question) return;
 
     lastQuestion = question;
     submitBtn.disabled = true;
     submitBtn.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
-        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
-        <path d="M12 2a10 10 0 0 1 10 10"></path>
-      </svg>
       <span>Searching records...</span>
     `;
 
@@ -195,27 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.sources && data.sources.length > 0) {
       sourcesSection.style.display = 'block';
       data.sources.forEach((src) => {
-        const pill = document.createElement('button');
-        pill.type = 'button';
+        const pill = document.createElement('div');
         pill.className = 'citation-pill';
         pill.innerHTML = `
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
           </svg>
           <span>${src}</span>
-          <span style="font-size: 0.7rem; opacity: 0.7;">(view in sidebar)</span>
         `;
-        pill.addEventListener('click', () => {
-          highlightCitedDocs([src]);
-          const docsSection = document.getElementById('docs-section');
-          if (docsSection) docsSection.scrollIntoView({ behavior: 'smooth' });
-        });
         sourcesList.appendChild(pill);
       });
-      highlightCitedDocs(data.sources);
     } else {
       sourcesSection.style.display = 'none';
-      highlightCitedDocs([]);
     }
   }
 
@@ -226,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     errorSuggestion.textContent = tip;
   }
 
-  // 5. Form Events
+  // 3. Form Events
   qaForm.addEventListener('submit', (e) => {
     e.preventDefault();
     submitQuery(questionInput.value.trim());
@@ -238,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. Preset Test Buttons
+  // 4. Preset Test Buttons
   btnPreset1.addEventListener('click', () => {
     questionInput.value = 'When do group coaching sessions take place and where do I find the link?';
     submitQuery(questionInput.value);
@@ -254,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitQuery(questionInput.value);
   });
 
-  // 7. Quick Chips Buttons
+  // 5. Quick Chips Buttons
   document.querySelectorAll('.chip-item').forEach((chip) => {
     chip.addEventListener('click', () => {
       const q = chip.getAttribute('data-query');
@@ -265,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 8. Navigation Menu Buttons
+  // 6. Navigation Menu Buttons
   document.querySelectorAll('.nav-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
@@ -282,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 9. Interactive Lesson Progress Tracker (Document 1 Interactive Feature)
+  // 7. Interactive Lesson Progress Tracker (Document 1 Interactive Feature)
   const lessonCounter = document.getElementById('lessonCounter');
   const lessonItems = document.querySelectorAll('.lesson-item');
 
@@ -303,13 +218,4 @@ document.addEventListener('DOMContentLoaded', () => {
       updateLessonProgress();
     });
   });
-
-  function escapeHtml(str) {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
 });
