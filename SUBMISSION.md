@@ -19,20 +19,20 @@ I built the BrightPath Learn AI Help Desk as a grounded, lightweight web applica
 1. Grounding & RAG Architecture:
 The system is built on a custom grounding engine that ingests the 3 official reference documents. When a user submits a question, the assistant bounds its response strictly to the facts present in the text and explicitly cites the supporting source (e.g. "Document 2 — Coaching and feedback"). If a user asks about topics not in the documentation (such as pricing, refunds, or job placement guarantees), the engine refuses to guess or hallucinate, states that the information is not currently available, and refers the user to support@brightpath.example (Monday–Friday, 09:00–17:00 UTC).
 
-2. Dual Model Architecture:
+2. Dual Model Architecture & Multi-Provider Failover:
 - Deterministic Offline Mock Engine (Default): Pre-configured so any reviewer can clone the repository and run `npm start` immediately with zero setup or API keys.
-- Real LLM Integration: Automatically connects to Google Gemini 1.5 Flash or OpenAI GPT-4o-mini simply by providing an API key in .env.
+- Real LLM Integration: Seamlessly connects to OpenRouter, Google Gemini, or OpenAI simply by providing an API key in .env. If OpenRouter encounters an upstream outage, the system automatically falls back to secondary Google Gemini with zero downtime.
 
 3. Failure Handling & Testing (Requirement 4):
 The application includes a built-in "Simulate API Failure" toggle switch and server failure hook that triggers a simulated HTTP 503 service outage. The UI catches this state gracefully, displaying a clear alert banner with actionable recovery advice and an inline "Retry Request" button.
 
 4. Results for the 3 Test Cases:
 - Case 1 (Supported Question: "When do group coaching sessions take place and where do I find the link?"): Correctly returns Tuesday at 16:00 UTC, states that the link appears on the Coaching page 30 minutes prior, and cites "Document 2 — Coaching and feedback".
-- Case 2 (Unknown Question: "How much does BrightPath Learn cost, and what are the refund rules?"): Refuses to hallucinate, states that the information is not currently available, and directs the user to support@brightpath.example (citing Document 3).
+- Case 2 (Unknown Question: "How much does BrightPath Learn cost, and what are the refund rules?"): Refuses to hallucinate, provides a warm helpful message that the topic is beyond the knowledge base, and directs the user to support@brightpath.example.
 - Case 3 (API Failure Condition): Flipped the simulation toggle; server returned HTTP 503 with a user-friendly error card and retry action.
 
 5. What I Built vs Used:
-- Built by me: Grounding engine, prompt assembly, citation parser, deterministic offline matcher, zero-dependency Node.js HTTP server, automated test battery (7 assertions), and clean responsive web UI.
+- Built by me: Grounding engine, prompt assembly, citation parser, deterministic offline matcher, zero-dependency Node.js HTTP server, automated test battery (10 passing assertions), and clean responsive web UI.
 - Tools & Libraries: Node.js native standard library (`node:http`, `node:test`, `node:assert`, `node:fs`).
 
 6. What I Would Improve:
