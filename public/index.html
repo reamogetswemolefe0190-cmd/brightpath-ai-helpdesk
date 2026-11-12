@@ -68,7 +68,7 @@
                 <path d="m17 19-5 3-5-3"></path>
                 <path d="M2 12h20"></path>
               </svg>
-              <span>Reviewer Test Bench & Model Resilience</span>
+              <span>Reviewer Test Bench</span>
             </div>
 
             <!-- API Failure Simulation Toggle -->
@@ -77,24 +77,6 @@
               <input type="checkbox" id="simulateFailureToggle">
               <span class="switch-slider"></span>
             </label>
-          </div>
-
-          <!-- Strategy & Provider Selector -->
-          <div class="strategy-row">
-            <div class="strategy-select-wrap">
-              <label for="providerSelect" class="strategy-label">Model Strategy:</label>
-              <select id="providerSelect" class="strategy-select">
-                <option value="auto">Auto (OpenRouter → Gemini Fallback)</option>
-                <option value="openrouter">Primary: OpenRouter (Frontier)</option>
-                <option value="gemini">Fallback: Google Gemini (Direct API)</option>
-                <option value="simulate-fallback">⚡ Simulate Failover (Force Fallback to Gemini)</option>
-                <option value="mock">Offline Ground-Truth Mock</option>
-              </select>
-            </div>
-            <div id="fallbackChainIndicator" class="fallback-chain-pill" title="Live failover chain">
-              <span class="dot active"></span>
-              <span class="chain-text">OpenRouter ➔ Gemini ➔ Mock</span>
-            </div>
           </div>
 
           <div class="preset-triggers">
@@ -109,10 +91,6 @@
             <button type="button" class="preset-pill" id="btnPreset3">
               <span class="pill-badge neutral">Case 3</span>
               <span class="pill-text">Foundations Progress (Doc 1)</span>
-            </button>
-            <button type="button" class="preset-pill failover-pill" id="btnPresetFallback" title="Test instant automatic failover from OpenRouter to Google Gemini">
-              <span class="pill-badge failover">Failover</span>
-              <span class="pill-text">Test Failover</span>
             </button>
           </div>
         </div>
@@ -163,29 +141,10 @@
             <div id="responseStatusBadge" class="status-tag grounded">
               <!-- Dynamically populated -->
             </div>
-            <span id="responseEngineMode" class="engine-meta">Deterministic Grounded Engine</span>
-          </div>
-
-          <!-- Failover Notice Banner (Shown when fallback was active) -->
-          <div id="responseFallbackBanner" class="failover-notice-banner" style="display: none;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
-            <span id="responseFallbackText">Failover Active: Answered via Google Gemini fallback.</span>
           </div>
 
           <div class="response-content">
             <p id="responseContent" class="response-paragraph"></p>
-          </div>
-
-          <!-- Citation Card -->
-          <div id="sourcesSection" class="citation-drawer">
-            <div class="citation-header">
-              <span class="citation-caption">Supported by Official Documentation:</span>
-            </div>
-            <div id="sourcesList" class="citation-chips">
-              <!-- Chips inserted dynamically -->
-            </div>
           </div>
 
           <!-- Human Support Referral Card (Shown when question is out of scope) -->
