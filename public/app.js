@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const responseEngineMode = document.getElementById('responseEngineMode');
   const responseFallbackBanner = document.getElementById('responseFallbackBanner');
   const responseFallbackText = document.getElementById('responseFallbackText');
+  const humanSupportCard = document.getElementById('humanSupportCard');
   const responseContent = document.getElementById('responseContent');
   const sourcesSection = document.getElementById('sourcesSection');
   const sourcesList = document.getElementById('sourcesList');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     errorContainer.style.display = 'none';
     responseContainer.style.display = 'none';
     if (responseFallbackBanner) responseFallbackBanner.style.display = 'none';
+    if (humanSupportCard) humanSupportCard.style.display = 'none';
 
     const simulateFailure = simulateFailureToggle?.checked || false;
     const selectedStrategy = providerSelect?.value || 'auto';
@@ -128,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       responseFallbackBanner.style.display = 'none';
     }
 
-    // Status Badge
+    // Status Badge & Human Support Card
     if (data.isUnknown) {
       responseStatusBadge.className = 'status-tag unknown';
       responseStatusBadge.innerHTML = `
@@ -137,8 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <line x1="12" y1="8" x2="12" y2="12"></line>
           <line x1="12" y1="16" x2="12.01" y2="16"></line>
         </svg>
-        <span>Information Missing / Refused</span>
+        <span>Topic Beyond Guides · Human Support Available</span>
       `;
+      if (humanSupportCard) humanSupportCard.style.display = 'block';
     } else {
       responseStatusBadge.className = 'status-tag grounded';
       responseStatusBadge.innerHTML = `
@@ -147,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
         <span>Verified Grounded in Official Documents</span>
       `;
+      if (humanSupportCard) humanSupportCard.style.display = 'none';
     }
 
     // Sources Chips

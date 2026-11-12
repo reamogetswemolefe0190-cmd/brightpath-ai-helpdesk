@@ -49,8 +49,8 @@ test('BrightPath Learn AI Help Desk Test Battery', async (t) => {
     // Must explicitly state info is not available
     assert.match(
       result.answer,
-      /not available|not currently available|cannot find/i,
-      'Must state information is not available'
+      /not covered|not available|not currently available|cannot find|beyond our/i,
+      'Must state information is not covered or available'
     );
     // Must refer member to support
     assert.match(
@@ -95,7 +95,11 @@ test('BrightPath Learn AI Help Desk Test Battery', async (t) => {
     const result = await askHelpDesk(question);
 
     assert.match(result.answer, /Forgot password/i, 'Must mention Forgot password on sign-in page');
-    assert.match(result.answer, /never ask/i, 'Must emphasize that support never asks for a password');
+    assert.match(
+      result.answer,
+      /never ask|not be asked|never be asked|will not ask/i,
+      'Must emphasize that support never asks for a password'
+    );
     assert.ok(
       result.sources.includes('Document 3 — Account help'),
       'Must cite Document 3 — Account help'

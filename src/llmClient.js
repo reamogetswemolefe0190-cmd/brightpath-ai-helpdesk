@@ -72,7 +72,7 @@ async function callOpenRouter(question, apiKey, model = 'google/gemini-2.5-flash
     const sources = extractSources(answer);
     const isUnknown =
       sources.length === 0 ||
-      /not available|not found|not mentioned|cannot find|unable to find|no information|does not contain|do not contain/i.test(
+      /not available|not found|not mentioned|cannot find|unable to find|no information|does not contain|do not contain|not covered|beyond our/i.test(
         answer
       );
 
@@ -131,7 +131,7 @@ async function callGemini(question, apiKey, model = 'gemini-3-flash-preview') {
     const sources = extractSources(candidateText);
     const isUnknown =
       sources.length === 0 ||
-      /not available|not found|not mentioned|cannot find|unable to find|no information|does not contain/i.test(
+      /not available|not found|not mentioned|cannot find|unable to find|no information|does not contain|not covered|beyond our/i.test(
         candidateText
       );
 

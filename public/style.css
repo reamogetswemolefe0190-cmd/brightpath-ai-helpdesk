@@ -712,6 +712,76 @@ body {
   background-color: var(--primary-light);
 }
 
+/* Human Support Referral Card (Out of Scope) */
+.human-support-card {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background-color: var(--amber-bg);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-sm);
+  animation: fadeIn 220ms ease;
+}
+
+.support-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--amber-text);
+  margin-bottom: 6px;
+}
+
+.support-card-head svg {
+  color: #D97706;
+}
+
+.support-card-desc {
+  font-size: 0.85rem;
+  color: #78350F;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.support-action-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.support-email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: var(--radius-xs);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #92400E;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.support-email-btn:hover {
+  background-color: #FEF3C7;
+  border-color: #D97706;
+  color: #78350F;
+  transform: translateY(-1px);
+}
+
+.support-schedule-pill {
+  font-size: 0.775rem;
+  font-family: var(--font-mono);
+  color: #92400E;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+}
+
 /* Error Stage Card */
 .error-stage-card {
   background-color: var(--rose-bg);
