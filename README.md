@@ -71,7 +71,7 @@ User Query ──► /api/chat ──► Grounding Engine (RAG) ──► LLM Ro
 ### Scenario 2: Unknown / Out-of-Scope Question
 - **User Question**: *"How much does BrightPath Learn cost, and what are the refund rules?"*
 - **Assistant Response**:
-  > *"This information is not available in the supplied BrightPath Learn documents. For questions regarding pricing, refund rules, or job placement promises, please contact our support team at support@brightpath.example (available Monday to Friday, 09:00–17:00 UTC)."*
+  > *"This information is not currently available. For questions regarding pricing, refund rules, or job placement promises, please contact our support team at support@brightpath.example (available Monday to Friday, 09:00–17:00 UTC)."*
 - **Cited Source**: `Document 3 — Account help`
 - **Result**: Grounded refusal. No hallucinated prices or refund policies.
 

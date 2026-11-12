@@ -30,7 +30,7 @@ The application includes a built-in "Simulate API Failure" toggle switch and an 
 
 4. Results for the 3 Test Cases:
 - Supported Question ("When do group coaching sessions take place and where do I find the link?"): Correctly answers Tuesday at 16:00 UTC, notes the link appears 30 minutes prior on the Coaching page, and cites "Document 2 — Coaching and feedback".
-- Unknown Question ("How much does BrightPath Learn cost, and what are the refund rules?"): Correctly refuses to hallucinate, explicitly states information is not available in the supplied documents, and refers the user to support@brightpath.example (citing Document 3).
+- Unknown Question ("How much does BrightPath Learn cost, and what are the refund rules?"): Correctly refuses to hallucinate, states that the information is not currently available, and refers the user directly to support@brightpath.example (citing Document 3).
 - API Failure Condition: Flipped the simulation toggle; server immediately returned HTTP 503 with a user-friendly error banner and retry action.
 
 5. What I would improve:

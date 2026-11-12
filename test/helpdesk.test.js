@@ -50,8 +50,8 @@ test('BrightPath Learn AI Help Desk Test Battery', async (t) => {
     // Must explicitly state info is not available
     assert.match(
       result.answer,
-      /not available in the supplied (BrightPath Learn )?documents/i,
-      'Must explicitly state information is not available in supplied documents'
+      /not currently available/i,
+      'Must state information is not currently available'
     );
     // Must refer member to support
     assert.match(

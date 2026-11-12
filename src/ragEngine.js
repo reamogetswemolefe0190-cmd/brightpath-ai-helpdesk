@@ -40,19 +40,19 @@ export function buildGroundingPrompt(question) {
 Your responsibilities and strict constraints:
 1. Answer the user's question using ONLY the facts explicitly stated in the supplied reference documents below.
 2. In your response, explicitly state which document supports your answer (e.g. "Source: Document 2 — Coaching and feedback").
-3. If the answer is NOT contained in the supplied documents (for example, pricing, refund rules, job placement guarantees, or unspecified features):
-   - Explicitly state that this information is NOT available in the supplied documents.
+3. If the answer is NOT contained in the reference documents (for example, pricing, refund rules, job placement guarantees, or unspecified features):
+   - State clearly and naturally that this information is not available.
    - Refer the member to contact support at support@brightpath.example.
    - Do NOT attempt to guess, assume, or hallucinate an answer.
 4. Security rule: Never ask a member to provide their password.
-5. Format your response cleanly.
+5. Format your response cleanly and naturally without robotic meta-language.
 
-Supplied Reference Documents:
+Reference Documents:
 ${docContext}
 
 User Question: ${question}
 
-Response format: Provide a helpful, direct answer followed by an explicit "Source:" line citing the supporting document(s), or stating that the information is unavailable in the supplied documents.`;
+Response format: Provide a helpful, direct answer followed by an explicit "Source:" line citing the supporting document(s), or stating that the information is unavailable and referring to support.`;
 
   return systemInstructions;
 }
@@ -90,7 +90,7 @@ export function generateMockAnswer(question) {
   ) {
     return {
       answer:
-        'This information is not available in the supplied BrightPath Learn documents. For questions regarding pricing, refund rules, or job placement promises, please contact our support team at support@brightpath.example (available Monday to Friday, 09:00–17:00 UTC).',
+        'This information is not currently available. For questions regarding pricing, refund rules, or job placement promises, please contact our support team at support@brightpath.example (available Monday to Friday, 09:00–17:00 UTC).',
       sources: ['Document 3 — Account help'],
       isGrounded: true,
       isUnknown: true,
@@ -176,7 +176,7 @@ export function generateMockAnswer(question) {
   // Fallback for completely unrecognized queries
   return {
     answer:
-      'I could not find an answer to your question in the supplied BrightPath Learn documents. Please check the reference documentation or contact support@brightpath.example for assistance.',
+      'I could not find an answer to that question. Please check our official knowledgebase or contact support@brightpath.example for assistance.',
     sources: [],
     isGrounded: false,
     isUnknown: true,
