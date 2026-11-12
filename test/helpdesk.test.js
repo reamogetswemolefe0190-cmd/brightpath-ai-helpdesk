@@ -63,6 +63,15 @@ test('BrightPath Learn AI Help Desk Test Battery', async (t) => {
     assert.doesNotMatch(result.answer, /\$\d+|\bR\d+|\b€\d+/i, 'Must not invent currency/pricing amounts');
   });
 
+  await t.test('Anti-Hallucination Guardrail: "How do I start a business selling lessons?" is refused', async () => {
+    const question = 'How do I start a business selling lessons?';
+    const result = await askHelpDesk(question);
+
+    assert.equal(result.isGrounded, false, 'Must not claim business question is grounded');
+    assert.equal(result.isUnknown, true, 'Must flag business question as unknown/unanswered');
+    assert.doesNotMatch(result.answer, /Foundations course has 6 lessons/i, 'Must NOT return Lesson 1 text');
+  });
+
   await t.test('Scenario 3 (Failure Condition): Simulated upstream API failure handling', async () => {
     let caughtError = null;
 

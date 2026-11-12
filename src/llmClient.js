@@ -53,11 +53,15 @@ export async function askHelpDesk(question, options = {}) {
       const data = await response.json();
       const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
       const sources = extractSources(candidateText);
+      const isUnknown =
+        sources.length === 0 ||
+        /not available|not found|not mentioned|cannot find|unable to find|no information/i.test(candidateText);
 
       return {
         answer: candidateText.trim(),
-        sources,
-        isGrounded: sources.length > 0,
+        sources: isUnknown ? [] : sources,
+        isGrounded: !isUnknown && sources.length > 0,
+        isUnknown,
         mode: 'real-llm (Gemini 1.5 Flash)',
       };
     } catch (err) {
@@ -106,11 +110,15 @@ export async function askHelpDesk(question, options = {}) {
       const data = await response.json();
       const answer = data.choices?.[0]?.message?.content || '';
       const sources = extractSources(answer);
+      const isUnknown =
+        sources.length === 0 ||
+        /not available|not found|not mentioned|cannot find|unable to find|no information/i.test(answer);
 
       return {
         answer: answer.trim(),
-        sources,
-        isGrounded: sources.length > 0,
+        sources: isUnknown ? [] : sources,
+        isGrounded: !isUnknown && sources.length > 0,
+        isUnknown,
         mode: 'real-llm (GPT-4o-mini)',
       };
     } catch (err) {
