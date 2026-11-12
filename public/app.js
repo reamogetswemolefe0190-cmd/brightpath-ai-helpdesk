@@ -179,43 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // 6. Navigation Menu Buttons
-  document.querySelectorAll('.nav-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const targetId = btn.getAttribute('data-target');
-      if (targetId === 'coaching-section') {
-        questionInput.value = 'When do group coaching sessions take place and where do I find the link?';
-        submitQuery(questionInput.value);
-      } else {
-        const el = document.getElementById(targetId);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // 7. Interactive Lesson Progress Tracker (Document 1 Interactive Feature)
-  const lessonCounter = document.getElementById('lessonCounter');
-  const lessonItems = document.querySelectorAll('.lesson-item');
-
-  function updateLessonProgress() {
-    const completedCount = document.querySelectorAll('.lesson-item.completed').length;
-    lessonCounter.textContent = `${completedCount} of 6 Completed`;
-  }
-
-  lessonItems.forEach((item) => {
-    const completeBtn = item.querySelector('.complete-btn');
-    completeBtn.addEventListener('click', () => {
-      item.classList.toggle('completed');
-      if (item.classList.contains('completed')) {
-        completeBtn.textContent = '✓ Completed';
-      } else {
-        completeBtn.textContent = 'Mark complete';
-      }
-      updateLessonProgress();
-    });
-  });
 });

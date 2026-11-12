@@ -103,6 +103,7 @@ body {
 .nav-brand {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .brand-plain-text {
@@ -112,39 +113,20 @@ body {
   color: var(--text-main);
 }
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  padding: 3px;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-}
-
-.nav-btn {
-  background: none;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-family: var(--font-sans);
-  font-size: 0.825rem;
+.brand-tag {
+  font-size: 0.725rem;
   font-weight: 600;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all var(--transition-fast);
+  background-color: var(--bg-muted);
+  color: var(--text-sub);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
 }
 
-.nav-btn:hover {
-  color: var(--text-main);
-  background-color: var(--bg-muted);
-}
-
-.nav-btn.active {
-  color: var(--text-main);
-  background-color: var(--bg-muted);
-  font-weight: 700;
+.nav-support-hours {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  font-weight: 500;
 }
 
 .nav-actions {
@@ -690,132 +672,28 @@ body {
   transform: translateY(-1px);
 }
 
-/* Curriculum Stage Card */
-.curriculum-stage-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 22px 24px;
-  box-shadow: var(--shadow-card);
-}
-
-.curriculum-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 14px;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.card-subtitle {
-  font-size: 0.875rem;
-  color: var(--text-sub);
-  margin-top: 2px;
-}
-
-.lesson-counter {
-  font-family: var(--font-mono);
-  font-size: 0.775rem;
-  font-weight: 700;
-  background-color: var(--primary-light);
-  color: var(--primary);
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-}
-
-.lessons-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.lesson-item {
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #FAFCFF;
-  transition: all var(--transition-fast);
-}
-
-.lesson-item:hover {
-  border-color: var(--primary);
-  background-color: #FFFFFF;
-}
-
-.lesson-item.completed {
-  border-color: var(--emerald);
-  background-color: var(--emerald-bg);
-}
-
-.lesson-item.completed .complete-btn {
-  background-color: var(--emerald);
-  color: #fff;
-  border-color: var(--emerald);
-}
-
-.lesson-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.lesson-num {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-faint);
-  text-transform: uppercase;
-}
-
-.lesson-name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.complete-btn {
-  background-color: #FFFFFF;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.complete-btn:hover {
-  border-color: var(--emerald);
-  color: var(--emerald);
-}
-
 /* ==========================================================================
    Footer
    ========================================================================== */
 .app-footer {
-  margin-top: 56px;
-  padding-top: 22px;
+  margin-top: 64px;
+  padding-top: 24px;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.825rem;
+  font-size: 0.85rem;
   color: var(--text-sub);
 }
 
+.app-footer a {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .footer-meta .dot-sep {
-  margin: 0 6px;
+  margin: 0 8px;
   color: var(--text-faint);
 }
 
