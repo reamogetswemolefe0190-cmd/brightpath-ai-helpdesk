@@ -2,60 +2,67 @@
 
 A grounded, hallucination-resistant AI help desk assistant for **BrightPath Learn** (a fictional online learning platform), built for the **Alessandro AI Developer Practical Test**.
 
-Styled using **Palletism's [Graphite Sketch](https://palletism.art/collections/graphite-sketch)** taste pack for an authentic, calm, human-crafted educational feel.
+Built with a multi-tier resilient architecture supporting **OpenRouter**, **Google Gemini**, and a deterministic offline ground-truth engine.
 
 ---
 
 ## 1. Quick Start
 
 ### Prerequisites
-- Node.js v18 or higher (No external npm packages required — built 100% on Node.js native modules).
+- **Node.js v18 or higher** (No external npm packages required — built 100% on Node.js native standard library).
 
 ### Run the Application
 ```bash
-# 1. Navigate to directory
+# 1. Clone repository
+git clone https://github.com/reamogetswemolefe0190-cmd/brightpath-ai-helpdesk.git
 cd brightpath-ai-helpdesk
 
-# 2. Start the server (runs immediately, zero download needed)
+# 2. (Optional) Configure Real LLM Keys in .env
+# Copy example and add your OpenRouter or Gemini key:
+cp .env.example .env
+
+# 3. Start the server (runs immediately with zero dependencies)
 npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Run Automated Tests
+### Run Automated Test Battery
 ```bash
 npm test
 ```
-Executes the native test battery verifying grounding, source citation, out-of-scope refusal, and failure handling.
+Executes the native test suite (10 automated assertions) verifying document ingestion, strict grounding, citation verification, out-of-scope refusals, upstream 503 outage handling, and multi-tier failover.
 
 ---
 
 ## 2. Features & Architecture
 
 ```
-User Query ──► /api/chat ──► Grounding Engine (RAG) ──► LLM Router
-                                    │                           │
-                   ┌────────────────┴───────────────┐           ├─► Real API (Gemini/OpenAI)
-                   │ Document 1 — Getting started   │           ├─► Offline Grounded Mock
-                   │ Document 2 — Coaching/feedback │           └─► Simulated Outage (503)
-                   │ Document 3 — Account help      │
-                   └────────────────────────────────┘
+User Query ──► POST /api/chat ──► Grounding Engine (RAG) ──► Resilient Model Router
+                                        │                             │
+                      ┌─────────────────┴─────────────────┐           ├─► Tier 1: OpenRouter (Frontier)
+                      │ Document 1 — Getting started     │           ├─► Tier 2: Google Gemini (Failover)
+                      │ Document 2 — Coaching & feedback │           ├─► Tier 3: OpenAI (Alternative)
+                      │ Document 3 — Account help        │           └─► Tier 4: Deterministic Mock Engine
+                      └───────────────────────────────────┘
 ```
 
 1. **Strict Document Grounding**:
    - The assistant answers queries using **only** the 3 supplied BrightPath Learn documents.
-   - Answers explicitly cite which document supports them.
-2. **Negative Constraint & Refusal**:
-   - Out-of-scope questions (such as pricing, refunds, or job placement promises) are explicitly refused without guessing or hallucinating, and members are referred to `support@brightpath.example`.
-3. **Dual Model Modes**:
-   - **Offline Mock Engine (Default)**: Deterministic, rule-based ground-truth matching so reviewers can evaluate the app out of the box without needing an API key.
-   - **Real LLM Integration**: Pass `GEMINI_API_KEY` or `OPENAI_API_KEY` in `.env` to connect live frontier models.
-4. **Testable Failure Handling**:
-   - Includes a 1-click **"Simulate API Failure"** toggle in the UI and server hook (`simulateFailure: true`) to simulate upstream provider outages (HTTP 503) with user-friendly recovery guidance.
-5. **Palletism Aesthetic**:
-   - Uses Palletism's `graphite-sketch` design tokens: Bright Paper (`#FFFFFF`), Graphite Ink (`#2B2B2B`), Soft Graphite (`#7A7A7A`), and Hatching (`#C9C9C9`).
-   - Editorial serif typography (`Cormorant Garamond` + `Literata`).
-   - Zero emojis — clean inline SVGs only.
+   - When verified, responses indicate the supporting document in the verified status badge (`Verified in Document X`).
+2. **Negative Constraints & Warm Refusal**:
+   - Out-of-scope questions (such as pricing, refunds, job guarantees, or starting a business) are refused politely without guessing or hallucinating.
+   - The UI surfaces a dedicated **Human Support Available** card referring students to `support@brightpath.example` (Monday–Friday, 09:00–17:00 UTC).
+   - Prevents false grounding badges (`isGrounded: false`, `isUnknown: true`).
+3. **Multi-Tier Resilient Inference**:
+   - **Frontier LLMs**: Out-of-the-box integration with OpenRouter (`google/gemini-2.5-flash`), Google Gemini (`gemini-3-flash-preview`), and OpenAI (`gpt-4o-mini`).
+   - **Automatic Failover**: If the primary provider times out or encounters an upstream 503, the system automatically catches the error and fails over to secondary Google Gemini with zero user downtime.
+   - **Deterministic Offline Mock Engine (Default)**: Pre-configured so any reviewer can clone and run `npm start` immediately with zero setup or API keys.
+4. **Testable Failure Handling (Requirement 4)**:
+   - Includes a 1-click **"Simulate API Failure"** toggle switch in the Reviewer Test Bench and a server hook (`simulateFailure: true`) to simulate upstream provider outages (HTTP 503) with clear recovery instructions.
+5. **Authentic Interface & Zero Emojis**:
+   - Clean, focused single-page interface using modern educational typography (`Plus Jakarta Sans` and `JetBrains Mono`).
+   - Zero emojis in the application — crisp inline SVGs only.
 
 ---
 
@@ -64,25 +71,26 @@ User Query ──► /api/chat ──► Grounding Engine (RAG) ──► LLM Ro
 ### Scenario 1: Supported Question
 - **User Question**: *"When do group coaching sessions take place and where do I find the link?"*
 - **Assistant Response**:
-  > *"Group coaching sessions take place every Tuesday at 16:00 UTC. The link appears on the Coaching page 30 minutes before the session, and recordings are added within 24 hours."*
-- **Cited Source**: `Document 2 — Coaching and feedback`
-- **Result**: Verified grounded answer. Document 2 card is highlighted in the UI.
+  > *"Our group coaching sessions are held every Tuesday at 16:00 UTC. You can find the link to join on the Coaching page, and it will appear 30 minutes before the session starts."*
+- **Status Badge**: `Verified in Document 2 · Coaching and feedback`
+- **Verification**: `isGrounded: true`, `isUnknown: false`.
 
 ### Scenario 2: Unknown / Out-of-Scope Question
-- **User Question**: *"How much does BrightPath Learn cost, and what are the refund rules?"*
+- **User Question**: *"How do I start a business selling lessons?"* (or *"What is the refund policy and course pricing?"*)
 - **Assistant Response**:
-  > *"This information is not currently available. For questions regarding pricing, refund rules, or job placement promises, please contact our support team at support@brightpath.example (available Monday to Friday, 09:00–17:00 UTC)."*
-- **Cited Source**: `Document 3 — Account help`
-- **Result**: Grounded refusal. No hallucinated prices or refund policies.
+  > *"Hello there! That's an interesting question, but the BrightPath Learn knowledge base doesn't cover information about starting a business or selling lessons. Please feel free to reach out to our dedicated support team at support@brightpath.example for further assistance. They are available Monday to Friday, 09:00–17:00 UTC."*
+- **Status Badge**: `Topic Beyond Available Guides`
+- **UI Element**: Surfaces the dedicated Human Support referral card with direct email action.
+- **Verification**: `isGrounded: false`, `isUnknown: true`, `sources: []` (No false claims of document verification).
 
 ### Scenario 3: API / Model Failure Condition
-- **User Action**: Flipped **"Simulate API Failure"** toggle switch on and submitted question.
+- **User Action**: Toggled **"Simulate API Failure"** switch on and submitted question.
 - **Server Response**: HTTP 503 Service Unavailable
-- **UI Error Banner**:
-  > **Model Service Unavailable**  
+- **UI Error Card**:
+  > **Simulated API Failure (HTTP 503)**  
   > *"Simulated LLM Service Outage: The upstream AI model is currently unreachable (HTTP 503 Service Unavailable). Please check your connection or try again shortly."*  
-  > *Troubleshooting note: Toggle off "Simulate API Failure" above or check server logs.*
-- **Action**: Provides an inline **Retry Request** button.
+  > *Troubleshooting advice: Toggle off "Simulate API Failure" above or check your network.*
+- **Action**: Provides an inline **Retry Request** button to re-submit cleanly.
 
 ---
 
@@ -90,18 +98,18 @@ User Query ──► /api/chat ──► Grounding Engine (RAG) ──► LLM Ro
 
 | Component | Author / Source | Description |
 | :--- | :--- | :--- |
-| **Grounding Engine** | Built by me | Document ingestion, strict system prompting, citation extraction, and negative refusal constraint logic. |
-| **Server & API** | Built by me | Native Node.js HTTP server (`node:http`) with JSON endpoints (`/api/chat`, `/api/docs`, `/api/health`). Zero dependencies. |
-| **User Interface** | Built by me | Accessible single-page web app with preset scenario test buttons, document drawer, and live citation highlighting. |
-| **Automated Test Battery** | Built by me | 7 automated test assertions (`node:test`) validating all 3 test scenarios. |
-| **Visual Design & Taste** | Palletism MCP Server | Queried Palletism MCP server for the `graphite-sketch` taste pack (palette tokens, font pairings, and aesthetic brief). |
-| **LLM Inference** | Google Gemini / OpenAI | Optional upstream APIs connected via standard REST calls. |
+| **Grounding Engine** | Built by me | Document loader, prompt assembly with negative constraints, citation extraction, and anti-hallucination verification. |
+| **Resilient LLM Router** | Built by me | Multi-provider client with timeout aborts and automatic failover from OpenRouter to Google Gemini. |
+| **Server & API** | Built by me | Native Node.js HTTP server (`node:http`) with JSON endpoints (`/api/chat`, `/api/docs`, `/api/health`). Zero external npm dependencies. |
+| **User Interface** | Built by me | Clean, responsive single-page web app with preset scenario test buttons and dynamic human support referral card. |
+| **Automated Test Battery** | Built by me | 10 automated test assertions (`node:test`, `node:assert`) validating all required scenarios and edge cases. |
+| **Upstream Inference** | OpenRouter / Google Gemini / OpenAI | Connected via standard REST APIs using native `fetch`. |
 
 ---
 
 ## 5. What is Unfinished or Limited (Future Improvements)
 
-1. **Vector Embeddings for Scale**: Currently, with 3 documents, passing full-text context into the prompt or keyword matcher is 100% reliable and avoids retrieval chunking misses. For hundreds of documents, we would add hybrid BM25 + dense vector search (e.g. pgvector or SQLite-vss).
-2. **Multi-Turn Conversation Memory**: The current implementation is single-turn Q&A. Adding a session store (e.g., Redis or in-memory LRU) would allow conversational follow-ups.
-3. **Streaming Responses**: Adding Server-Sent Events (SSE) for token-by-token streaming to enhance perceived latency on real LLM calls.
-4. **Automated Evaluation Harness**: Integrating an automated LLM-as-a-judge eval script (using RAGAS metrics: faithfulness, answer relevancy, context recall) to continuously prevent regressions.
+1. **Vector Embeddings for Scale**: With 3 reference documents, passing full-text context into the prompt or keyword router is 100% reliable and avoids retrieval chunking misses. For 50+ documents, a hybrid BM25 + vector retrieval layer (e.g. pgvector or SQLite-vss) would be implemented.
+2. **Multi-Turn Conversation Memory**: The current interface focuses on single-turn Q&A. A production evolution would include multi-turn conversational session history and context window truncation.
+3. **Streaming Responses**: Adding Server-Sent Events (SSE) for token-by-token streaming to enhance perceived latency on live frontier LLM calls.
+4. **Automated Evaluation Harness**: Integrating continuous LLM-as-a-judge eval scripts (measuring faithfulness, answer relevancy, and negative constraint compliance) to automatically prevent regressions.
