@@ -16,10 +16,73 @@ export async function askHelpDesk(question, options = {}) {
     throw error;
   }
 
+  const openrouterKey = process.env.OPENROUTER_API_KEY?.trim();
   const geminiKey = process.env.GEMINI_API_KEY?.trim();
   const openaiKey = process.env.OPENAI_API_KEY?.trim();
 
-  // 1. If Gemini API key is configured, use Gemini
+  // 1. If OpenRouter API key is configured, use OpenRouter (OpenAI-compatible)
+  if (openrouterKey) {
+    try {
+      const prompt = buildGroundingPrompt(question);
+      const url = 'https://openrouter.ai/api/v1/chat/completions';
+      const model = process.env.OPENROUTER_MODEL?.trim() || 'google/gemini-2.0-flash-001';
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${openrouterKey}`,
+          'HTTP-Referer': 'http://localhost:3000',
+          'X-Title': 'BrightPath AI Help Desk',
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.1,
+          max_tokens: 500,
+        }),
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errBody = await response.text();
+        const error = new Error(`OpenRouter API returned status ${response.status}: ${errBody}`);
+        error.status = response.status;
+        throw error;
+      }
+
+      const data = await response.json();
+      const answer = data.choices?.[0]?.message?.content || '';
+      const sources = extractSources(answer);
+      const isUnknown =
+        sources.length === 0 ||
+        /not available|not found|not mentioned|cannot find|unable to find|no information|does not contain|do not contain/i.test(
+          answer
+        );
+
+      return {
+        answer: answer.trim(),
+        sources: isUnknown ? [] : sources,
+        isGrounded: !isUnknown && sources.length > 0,
+        isUnknown,
+        mode: `real-llm (OpenRouter: ${model})`,
+      };
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        const timeoutErr = new Error('LLM request timed out after 15 seconds. Upstream model did not respond in time.');
+        timeoutErr.status = 504;
+        throw timeoutErr;
+      }
+      throw err;
+    }
+  }
+
+  // 2. If Gemini API key is configured, use Gemini
   if (geminiKey) {
     try {
       const prompt = buildGroundingPrompt(question);

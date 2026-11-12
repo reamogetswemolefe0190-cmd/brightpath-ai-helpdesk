@@ -176,7 +176,14 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`BrightPath AI Help Desk server running at: http://localhost:${PORT}`);
   console.log(`Palletism Taste Pack: Graphite Sketch`);
-  console.log(`LLM Mode: ${process.env.GEMINI_API_KEY ? 'Gemini 1.5 Flash' : process.env.OPENAI_API_KEY ? 'OpenAI' : 'Deterministic Offline Mock'}`);
+  const activeMode = process.env.OPENROUTER_API_KEY
+    ? `OpenRouter (${process.env.OPENROUTER_MODEL || 'google/gemini-2.0-flash-001'})`
+    : process.env.GEMINI_API_KEY
+    ? 'Gemini 1.5 Flash'
+    : process.env.OPENAI_API_KEY
+    ? 'OpenAI'
+    : 'Deterministic Offline Mock';
+  console.log(`LLM Mode: ${activeMode}`);
 });
 
 export { server };
