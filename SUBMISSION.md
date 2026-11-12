@@ -7,10 +7,9 @@ You can copy and paste these exact text blocks into the 6 submission fields on t
 
 ### Field 1: Links to your work (Required)
 ```text
-https://github.com/YOUR_USERNAME/brightpath-ai-helpdesk
-Local execution: git clone <repo>, cd brightpath-ai-helpdesk && npm start (runs on http://localhost:3000 with zero external npm dependencies)
+https://github.com/reamogetswemolefe0190-cmd/brightpath-ai-helpdesk
+Local execution: git clone https://github.com/reamogetswemolefe0190-cmd/brightpath-ai-helpdesk.git, cd brightpath-ai-helpdesk && npm start (runs on http://localhost:3000 with zero external npm dependencies)
 ```
-*(Replace `YOUR_USERNAME` with your GitHub username once pushed).*
 
 ---
 
